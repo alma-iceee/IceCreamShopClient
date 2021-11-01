@@ -1,0 +1,108 @@
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="IceCreamShop.Models" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Category">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+      </EntityType>
+      <EntityType Name="Company">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Description" Type="Edm.String" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+      </EntityType>
+      <EntityType Name="Customer">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Surname" Type="Edm.String" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="PhoneNumber" Type="Edm.String" />
+        <NavigationProperty Name="Orders" Type="Collection(IceCreamShop.Models.Order)" />
+      </EntityType>
+      <EntityType Name="Goods">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Code" Type="Edm.String" />
+        <Property Name="ProductId" Type="Edm.Int32" />
+        <Property Name="Date" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="GoodsStatusId" Type="Edm.Int32" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Product" Type="IceCreamShop.Models.Product">
+          <ReferentialConstraint Property="ProductId" ReferencedProperty="Id" />
+        </NavigationProperty>
+        <NavigationProperty Name="GoodsStatus" Type="IceCreamShop.Models.GoodsStatus">
+          <ReferentialConstraint Property="GoodsStatusId" ReferencedProperty="Id" />
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="GoodsStatus">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+      </EntityType>
+      <EntityType Name="Order">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="CustomerId" Type="Edm.Int32" />
+        <Property Name="GoodsId" Type="Edm.Int32" />
+        <Property Name="Date" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Customer" Type="IceCreamShop.Models.Customer">
+          <ReferentialConstraint Property="CustomerId" ReferencedProperty="Id" />
+        </NavigationProperty>
+        <NavigationProperty Name="Goods" Type="IceCreamShop.Models.Goods">
+          <ReferentialConstraint Property="GoodsId" ReferencedProperty="Id" />
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Product">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Description" Type="Edm.String" />
+        <Property Name="CategoryId" Type="Edm.Int32" />
+        <Property Name="Price" Type="Edm.Double" Nullable="false" />
+        <Property Name="CompanyId" Type="Edm.Int32" />
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Category" Type="IceCreamShop.Models.Category">
+          <ReferentialConstraint Property="CategoryId" ReferencedProperty="Id" />
+        </NavigationProperty>
+        <NavigationProperty Name="Company" Type="IceCreamShop.Models.Company">
+          <ReferentialConstraint Property="CompanyId" ReferencedProperty="Id" />
+        </NavigationProperty>
+      </EntityType>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="Container">
+        <EntitySet Name="Categories" EntityType="IceCreamShop.Models.Category" />
+        <EntitySet Name="Companies" EntityType="IceCreamShop.Models.Company" />
+        <EntitySet Name="Customers" EntityType="IceCreamShop.Models.Customer">
+          <NavigationPropertyBinding Path="Orders" Target="Orders" />
+        </EntitySet>
+        <EntitySet Name="Goods" EntityType="IceCreamShop.Models.Goods">
+          <NavigationPropertyBinding Path="GoodsStatus" Target="GoodsStatuses" />
+          <NavigationPropertyBinding Path="Product" Target="Products" />
+        </EntitySet>
+        <EntitySet Name="GoodsStatuses" EntityType="IceCreamShop.Models.GoodsStatus" />
+        <EntitySet Name="Orders" EntityType="IceCreamShop.Models.Order">
+          <NavigationPropertyBinding Path="Customer" Target="Customers" />
+          <NavigationPropertyBinding Path="Goods" Target="Goods" />
+        </EntitySet>
+        <EntitySet Name="Products" EntityType="IceCreamShop.Models.Product">
+          <NavigationPropertyBinding Path="Category" Target="Categories" />
+          <NavigationPropertyBinding Path="Company" Target="Companies" />
+        </EntitySet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
